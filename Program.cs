@@ -79,7 +79,7 @@ for (int i = 0; i < maxPets; i++)
 do
 {
     Console.Clear();
-
+    //Menu
     Console.WriteLine("Welcome to the Contoso PetFriends app. Your main menu options are:");
     Console.WriteLine(" 1. List all of our current pet information");
     Console.WriteLine(" 2. Add a new animal friend to the ourAnimals array");
@@ -104,29 +104,73 @@ do
     // // pause code execution
     // readResult = Console.ReadLine();
 
+    // Menu Selection
     switch (menuSelection)
     {
         case "1":
             // List all of our current pet information
             for (int i = 0; i < maxPets; i++)
             {
-                if (ourAnimals[i, 0] != "ID #: ")
+                if (ourAnimals[i, 0] != "ID #: ")// Descarta index dentro de ourAnimals sem ID
                 {
                     Console.WriteLine();
                     for (int j = 0; j < 6; j++)
                     {
-                        Console.WriteLine(ourAnimals[i, j]);
+                        Console.WriteLine(ourAnimals[i, j]);// Escreve todos os dados da lista ourAnimals que possuem ID
                     }
                 }
             }
+
+            Console.WriteLine("Press the Enter key to continue.");
             readResult = Console.ReadLine();
             break;
 
         case "2":
             // Add a new animal friend to the ourAnimals array
-            Console.WriteLine("this app feature is coming soon - please check back to see progress.");
-            Console.WriteLine("Press the Enter key to continue.");
-            readResult = Console.ReadLine();
+            string anotherPet = "y";// Y or N parametro para definir loop while de acrescimo de dados na lista ourAnimals
+            int petCount = 0;
+            // Verificação de quantos pets tenho na minha lista ourAnimals
+            for (int i = 0; i < maxPets; i++)
+            {
+                if (ourAnimals[i, 0] != "ID #: ")
+                {
+                    petCount += 1;
+                }
+            }
+            // Informação de quantos pets temos e quantos ainda podemos cuidar
+            if (petCount < maxPets)
+            {
+                Console.WriteLine($"We currently have {petCount} pets that need homes. We can manage {maxPets - petCount} more.");
+            }
+            // Loop While para acrescimo de novos animais em ourAnimals
+            while (anotherPet == "y" && petCount < maxPets)
+            {
+                // increment petCount (the array is zero-based, so we increment the counter after adding to the array)
+                petCount = petCount + 1;
+                // check maxPet limit
+                if (petCount < maxPets)
+                {
+                    // another pet?
+                    Console.WriteLine("Do you want to enter info for another pet (y/n)");
+                    do
+                    {
+                        readResult = Console.ReadLine();
+                        if (readResult != null)
+                        {
+                            anotherPet = readResult.ToLower();
+                        }
+
+                    } while (anotherPet != "y" && anotherPet != "n");
+                }
+            }
+            // Verifica se possui vagas para acrescentarmos novos pet ao ourAnimals
+            if (petCount >= maxPets)
+            {
+                Console.WriteLine("We have reached our limit on the number of pets that we can manage.");
+                Console.WriteLine("Press the Enter key to continue.");
+                readResult = Console.ReadLine();
+            }
+
             break;
 
         case "3":
